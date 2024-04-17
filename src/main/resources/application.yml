@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@119.148.31.69:1515/asmdb
+    username: TESTUSER
+    password: TestPass#123
+    driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: oracle
+#    database-platform: org.hibernate.dialect.Oracle12cDialect
+  application:
+    security:
+      jwt:
+        secret-key: c1abd8f3379028d352e2b01038afab8ca38bda28157789fa4c07a6b8acfd63b9
+        expiration: 86400000 # a day
+        refresh-token:
+          expiration: 604800000 # 7 days
