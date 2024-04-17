@@ -10,17 +10,14 @@ This project implements a Java web application using Spring Security for user au
 
 ## Installation
 
-1. Clone this repository : https://github.com/naeemsifat/JSP_Servlet_Task2.git
-2. Go to the folder directory
-3. Set up the project environment with JDK 1.8 and Tomcat 9
-4. Create a database named "customer_db".
-5. Update the `jdbcURL`, `jdbcUsername` and `jdbcPassword` with your MySQL credentials.
-6. Build and run the project on server.
+1. Clone this repository : https://github.com/naeemsifat/Spring-Security.git
+2. Go to the master branch
+3. Build and run the project.
+4.Access the Swagger UI on: http://localhost:8080/swagger-ui/index.html
+5.Test the provided API endpoints for data processing.
 
 ## Third-Party Libraries/jar
 
-- jsp-api-2.2.jar
-- jstl-1.2.jar
-- mysql-connector-j-8.3.0.jar
-- servlet-api-2.5.jar
-- Bootstrap
+- Springdoc (Swagger) Dependency: `org.springframework.boot:spring-boot-starter-data-jpa
+- Lombok Dependency: `org.projectlombok:lombok`
+
