@@ -55,7 +55,7 @@ public class UsersInfo extends BaseEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return String.valueOf(userId);
     }
 
     @Override

@@ -30,8 +30,12 @@ public class AuthenticationController {
     @PostMapping("/registration")
     public ResponseEntity<AuthenticationResponse> save(@RequestBody UsersInfoDto dto) {
        Optional<UsersInfo>  userInfo = repository.findByEmailAndRecordStatus(dto.getEmail(), RecordStatus.ACTIVE);
+       Optional<UsersInfo>  userInfo2 = repository.findByUserIdAndRecordStatus(dto.getUserId(), RecordStatus.ACTIVE);
         if(userInfo.isPresent()){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new AuthenticationResponse("This User mail already registered."));
+        }
+        if(userInfo2.isPresent()){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new AuthenticationResponse("This User Id already registered."));
         }
         service.save(dto);
         return ResponseEntity.ok(new AuthenticationResponse("Registration complete"));
@@ -41,7 +45,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
-        Optional <UsersInfo> userInfo = repository.findByEmailAndRecordStatus(request.getEmail(), RecordStatus.ACTIVE);
+        Optional <UsersInfo> userInfo = repository.findByUserIdAndRecordStatus(request.getUserId(), RecordStatus.ACTIVE);
         if (userInfo.isEmpty()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new AuthenticationResponse("User account not found."));
         }

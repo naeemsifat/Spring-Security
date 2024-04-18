@@ -87,11 +87,11 @@ public class UserInfoServiceImpl implements UserInfoService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
+                        request.getUserId(),
                         request.getPassword()
                 )
         );
-        UsersInfo user = repository.findByEmailAndRecordStatus(request.getEmail(), RecordStatus.ACTIVE)
+        UsersInfo user = repository.findByUserIdAndRecordStatus(request.getUserId(), RecordStatus.ACTIVE)
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
@@ -131,14 +131,14 @@ public class UserInfoServiceImpl implements UserInfoService {
     ) throws IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
-        final String userEmail;
+        final Integer userId;
         if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
             return;
         }
         refreshToken = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(refreshToken);
-        if (userEmail != null) {
-            var user = this.repository.findByEmailAndRecordStatus(userEmail, RecordStatus.ACTIVE)
+        userId = Integer.valueOf(jwtService.extractUsername(refreshToken));
+        if (userId != null) {
+            var user = this.repository.findByUserIdAndRecordStatus(userId, RecordStatus.ACTIVE)
                     .orElseThrow();
             if (jwtService.isTokenValid(refreshToken, user)) {
                 var accessToken = jwtService.generateToken(user);

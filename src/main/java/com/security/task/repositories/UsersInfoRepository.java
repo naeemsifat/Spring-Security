@@ -12,6 +12,7 @@ import java.util.Optional;
 
 public interface UsersInfoRepository extends JpaRepository<UsersInfo, Long> {
     Optional<UsersInfo> findByEmailAndRecordStatus(String email, RecordStatus recordStatus);
+    Optional<UsersInfo> findByUserIdAndRecordStatus(Integer userId, RecordStatus recordStatus);
     @Query(value = """
             SELECT
             	ui.ID AS id,

@@ -1,10 +1,12 @@
 package com.security.task.service.impl;
 
+import com.security.task.entity.UsersInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
     @Value("${spring.application.security.jwt.secret-key}")
     private String secretKey ;
@@ -23,7 +26,6 @@ public class JwtService {
     private  long jwtExpiration;
     @Value("${spring.application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration ;
-
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -34,7 +36,9 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", ((UsersInfo) userDetails).getUserId());
+        return generateToken(claims, userDetails);
     }
 
     public String generateToken(
